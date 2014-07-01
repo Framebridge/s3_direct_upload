@@ -141,7 +141,7 @@ $.fn.S3Uploader = (options) ->
       content.filepath       = $uploadForm.find('input[name=key]').val().replace('/${filename}', '')
       content.url            = domain + content.filepath + '/' + encodeURIComponent(file.name)
 
-    content.bucket_with_key  = "#{domain}/#{$(result).find("Key").text()}"
+    content.bucket_with_key  = "#{domain}#{$(result).find("Key").text()}"
     content.host
     content.filename         = file.name
     content.filesize         = file.size if 'size' of file
