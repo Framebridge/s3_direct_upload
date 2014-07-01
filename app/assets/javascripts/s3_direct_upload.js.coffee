@@ -133,14 +133,16 @@ $.fn.S3Uploader = (options) ->
 
   build_content_object = ($uploadForm, file, result) ->
     content = {}
+    domain                   = $uploadForm.attr('action')
     if result # Use the S3 response to set the URL to avoid character encodings bugs
       content.url            = $(result).find("Location").text()
       content.filepath       = $('<a />').attr('href', content.url)[0].pathname
     else # IE <= 9 retu      rn a null result object so we use the file object instead
-      domain                 = $uploadForm.attr('action')
       content.filepath       = $uploadForm.find('input[name=key]').val().replace('/${filename}', '')
       content.url            = domain + content.filepath + '/' + encodeURIComponent(file.name)
 
+    content.bucket_with_key  = "#{domain}/#{$(result).find("Key").text()}"
+    content.host
     content.filename         = file.name
     content.filesize         = file.size if 'size' of file
     content.lastModifiedDate = file.lastModifiedDate if 'lastModifiedDate' of file
